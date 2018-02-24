@@ -82,7 +82,7 @@ export default class NodeJsPool extends React.PureComponent {
       url: coin.url,
       user,
       pass,
-      keepalive: true
+      keepalive: false
     };
 
     this.props.update(state);
