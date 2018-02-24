@@ -1,23 +1,11 @@
 {
   "pools": [
     {
-      "id": "any",
-      "name": "AnyPool"
+      "id": "c",
+      "name": "Anypool"
     }
-  ]
-    "any": {
-    "editor": "nodejs-pool",
-    "coins": [
-      {
-        "code": "GRFT",
-        "name": "Graft",
-        "url": "pool.graft.anypool.fr:3333"
-      },
-      {
-        "code": "ETN",
-        "name": "Electroneum",
-        "url": "pool.electroneum.anypool.fr:3333"
-      }      
-    ]
+  ],
+  "c": {
+    "editor": "anypool"
   }
 }
