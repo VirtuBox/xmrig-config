@@ -33,7 +33,7 @@ export const getCommandLine = (type, options) => {
   array.push(options.os === OS_WINDOWS ? `${product.exe}.exe` : `./${product.exe}`);
 
   if (options.algo === ALGO_CRYPTONIGHT_LITE) {
-    array.push(isProxy ? '--coin aeon' : '-a cryptonight-lite');
+    array.push(isProxy && options.version < 20500 ? '--coin aeon' : '-a cryptonight-lite');
   }
 
   if (options.background) {
@@ -191,6 +191,10 @@ export const getCommandLine = (type, options) => {
     array.push(`-u ${pool.user ? pool.user : 'x'}`);
     array.push(`-p ${pool.pass ? pool.pass : 'x'}`);
 
+    if (options.version >= 20500 && pool.variant !== -1) {
+      array.push(`--variant ${pool.variant}`);
+    }
+
     if (!isProxy) {
       if (pool.keepalive) {
         array.push('-k');
@@ -210,7 +214,7 @@ export const getJSON = (type, options, str = true) => {
   const result  = {};
   const isProxy = type === KIND_PROXY;
 
-  if (isProxy) {
+  if (isProxy && options.version < 20500) {
     result.coin = options.algo === ALGO_CRYPTONIGHT_LITE ? 'aeon' : 'xmr';
   }
   else {
@@ -293,7 +297,8 @@ export const getJSON = (type, options, str = true) => {
     result.pools = options.pools.filter(pool => pool.enabled).map(pool => ({
       url:       pool.url,
       user:      pool.user,
-      pass:      pool.pass
+      pass:      pool.pass,
+      variant:   options.version >= 20500 ? pool.variant : undefined
     }));
   }
   else {
@@ -302,7 +307,8 @@ export const getJSON = (type, options, str = true) => {
       user:      pool.user,
       pass:      pool.pass,
       keepalive: !!pool.keepalive,
-      nicehash:  !!pool.nicehash
+      nicehash:  !!pool.nicehash,
+      variant:   options.version >= 20500 ? pool.variant : undefined
     }));
   }
 
